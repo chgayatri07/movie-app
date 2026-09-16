@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Movie Application</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f4f7;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .add-button {
+            display: block;
+            width: 150px;
+            margin: 20px auto;
+            padding: 12px;
+            text-align: center;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .add-button:hover {
+            background-color: #2980b9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #eaf2f8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1> Movie Application</h1>
+
+    <a href="/add" class="add-button">+ Add Movie</a>
+
+    <table>
+
+        <tr>
+            <th>Movie Name</th>
+            <th>Year</th>
+            <th>Production</th>
+            <th>Genre</th>
+            <th>Rating</th>
+            <th>Runtime</th>
+            <th>Director</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Content Type</th>
+            <th>Action</th>
+        </tr>
+
+        <% movies.forEach(function(movie) { %>
+
+        <tr>
+            <td><%= movie.movieName %></td>
+            <td><%= movie.year %></td>
+            <td><%= movie.production %></td>
+            <td><%= movie.genre %></td>
+            <td><%= movie.rating %></td>
+            <td><%= movie.runtime %></td>
+            <td><%= movie.director %></td>
+            <td><%= movie.description %></td>
+            <td>
+            <img src="/uploads/<%= movie.img %>" width="100">
+            </td>
+            <td><%= movie.contenttype %></td>
+            <td>
+             <a href="/edit/<%= movie._id %>">Edit</a>
+
+                <form action="/delete/<%= movie._id %>" method="POST" style="display:inline;">
+                <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+
+        <% }); %>
+
+    </table>
+
+</body>
+
+</html>

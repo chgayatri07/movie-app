@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Movie</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f4f7;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        form {
+            width: 500px;
+            margin: auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea {
+            height: 80px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🎬 Edit Movie</h1>
+
+  
+        <form id="movieForm" action="/editmovie/<%= movie._id %>" method="POST" enctype="multipart/form-data">
+
+        <label>Movie Name</label>
+        <input type="text" name="movieName" value="<%= movie.movieName %>">
+
+        <label>Year</label>
+        <input type="number" name="year" value="<%= movie.year %>">
+
+        <label>Production</label>
+        <input type="text" name="production" value="<%= movie.production %>">
+
+        <label>Genre</label>
+        <input type="text" name="genre" value="<%= movie.genre %>">
+
+        <label>Rating</label>
+        <input type="number" step="0.1" name="rating" value="<%= movie.rating %>">
+
+        <label>Runtime</label>
+        <input type="text" name="runtime" value="<%= movie.runtime %>">
+
+        <label>Director</label>
+        <input type="text" name="director" value="<%= movie.director %>">
+
+        <label>Description</label>
+        <textarea name="description"><%= movie.description %></textarea>
+
+        <label>Movie Image</label>
+        <input type="file" name="movieImage" accept="image/*">
+
+        <p>Current image: <%= movie.img %></p>
+
+        <label>Content Type</label>
+        <input type="text" name="contenttype" value="<%= movie.contenttype %>">
+
+        <button type="submit">Update Movie</button>
+
+    </form>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script>
+$(document).ready(function() {
+
+    $("#movieForm").validate({
+
+        rules: {
+            movieName: {
+                required: true,
+                minlength: 2
+            },
+
+            year: {
+                required: true,
+                digits: true,
+                minlength: 4,
+                maxlength: 4
+            },
+
+            production: {
+                required: true
+            },
+
+            genre: {
+                required: true
+            },
+
+            rating: {
+                required: true,
+                number: true,
+                min: 0,
+                max: 10
+            },
+
+            runtime: {
+                required: true
+            },
+
+            director: {
+                required: true
+            },
+
+            description: {
+                required: true,
+                minlength: 10
+            },
+
+            contenttype: {
+                required: true
+            }
+        },
+
+        messages: {
+            movieName: "Please enter movie name",
+            year: "Please enter a valid 4-digit year",
+            production: "Please enter production company",
+            genre: "Please enter genre",
+            rating: "Please enter a rating between 0 and 10",
+            runtime: "Please enter runtime",
+            director: "Please enter director name",
+            description: "Please enter a description",
+            contenttype: "Please enter content type"
+        }
+
+    });
+
+});
+</script>
+</body>
+
+</html>

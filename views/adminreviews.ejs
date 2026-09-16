@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+```
+<title>Admin Reviews</title>
+
+<style>
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #111;
+        color: white;
+    }
+
+    .navbar {
+        background: #1a1a1a;
+        padding: 20px 40px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .container {
+        width: 80%;
+        margin: 40px auto;
+    }
+
+    h1 {
+        margin-bottom: 30px;
+    }
+
+    select {
+        width: 300px;
+        padding: 12px;
+        background: #222;
+        color: white;
+        border: 1px solid #555;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 12px 20px;
+        margin-left: 10px;
+        background: #e50914;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #b20710;
+    }
+
+    .info {
+        margin-top: 40px;
+        padding: 25px;
+        background: #1c1c1c;
+        border-radius: 8px;
+    }
+
+    .review {
+        background: #252525;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 6px;
+    }
+
+    .review h3 {
+        margin-top: 0;
+    }
+
+    .review p {
+        color: #ccc;
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<div class="navbar">
+    WATCHLIST - ADMIN
+</div>
+
+<div class="container">
+
+    <h1>Movie Reviews</h1>
+
+    <form action="/admin/reviews" method="GET">
+
+        <select name="movieId">
+
+            <option value="">Select a movie</option>
+
+            <% movies.forEach(function(movie) { %>
+
+                <option value="<%= movie._id %>">
+                    <%= movie.movieName %>
+                </option>
+
+            <% }); %>
+
+        </select>
+
+        <button type="submit">
+            View Reviews
+        </button>
+
+    </form>
+
+    <div class="info">
+
+        <% if (selectedMovie) { %>
+
+            <h2>
+                Reviews for <%= selectedMovie.movieName %>
+            </h2>
+
+            <% if (reviews.length === 0) { %>
+
+                <p>
+                    No reviews yet for this movie.
+                </p>
+
+            <% } else { %>
+
+                <% reviews.forEach(function(review) { %>
+
+                    <div class="review">
+
+                        <h3>
+                            <%= review.userName %>
+                        </h3>
+
+                        <p>
+                            Rating: <%= review.rating %>/10
+                        </p>
+
+                        <p>
+                            <%= review.review %>
+                        </p>
+
+                    </div>
+
+                <% }); %>
+
+            <% } %>
+
+        <% } else { %>
+
+            <p>
+                Select a movie to view its reviews.
+            </p>
+
+        <% } %>
+
+    </div>
+
+</div>
+```
+
+</body>
+
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title><%= title %></title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+        }
+
+        .navbar {
+            padding: 22px 55px;
+            background: #151515;
+            border-bottom: 1px solid #292929;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            width: 88%;
+            max-width: 1250px;
+            margin: 45px auto;
+        }
+
+        .page-heading {
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 500;
+        }
+
+        .page-heading p {
+            margin-top: 8px;
+            color: #888888;
+            font-size: 14px;
+        }
+
+        .search-box {
+            margin-bottom: 35px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 18px;
+            background: #191919;
+            border: 1px solid #303030;
+            border-radius: 5px;
+            color: #ffffff;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #555555;
+        }
+
+        .search-box input::placeholder {
+            color: #777777;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 28px;
+        }
+
+        .movie-card {
+            background: #191919;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 330px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .movie-info {
+            padding: 18px;
+        }
+
+        .movie-name {
+            margin: 0 0 8px;
+            font-size: 19px;
+            font-weight: 600;
+        }
+
+        .movie-details {
+            color: #999999;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .rating {
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+        .reviews {
+            color: #999999;
+            font-size: 13px;
+        }
+
+        .view-button {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 9px 15px;
+            background: #ffffff;
+            color: #111111;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .view-button:hover {
+            background: #dddddd;
+        }
+
+        @media (max-width: 1000px) {
+
+            .movie-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+        }
+
+        @media (max-width: 750px) {
+
+            .movie-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            .movie-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 20px;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="navbar">
+
+        <div class="logo">
+            WATCHLIST
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="page-heading">
+
+            <h1>The Next Story Begins</h1>
+
+            <p>Find something worth watching.</p>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="movieSearch"
+                placeholder="Search for a movie..."
+            >
+
+        </div>
+
+
+        <div class="movie-grid">
+
+            <% movies.forEach(function(movie) { %>
+
+                <div
+                    class="movie-card"
+                    data-movie-name="<%= movie.movieName %>"
+                >
+
+                    <img
+                        src="/uploads/<%= movie.img %>"
+                        alt="<%= movie.movieName %>"
+                    >
+
+
+                    <div class="movie-info">
+
+                        <h2 class="movie-name">
+                            <%= movie.movieName %>
+                        </h2>
+
+
+                        <div class="movie-details">
+                            <%= movie.year %> | <%= movie.genre %>
+                        </div>
+
+
+                        <div class="rating">
+                            Rating: <%= movie.rating %>/10
+                        </div>
+
+
+                        <div class="reviews">
+                     <%= movie.reviewCount %> Reviews
+                    </div>
+
+
+                        <a href="/movie/<%= movie._id %>" class="view-button">
+                        View Movie
+                        </a>
+
+                    </div>
+
+                </div>
+
+            <% }); %>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        document
+            .getElementById("movieSearch")
+            .addEventListener("keyup", function() {
+
+                var searchValue = this.value.toLowerCase();
+
+                var movies = document.querySelectorAll(".movie-card");
+
+
+                movies.forEach(function(movie) {
+
+                    var movieName =
+                        movie
+                            .getAttribute("data-movie-name")
+                            .toLowerCase();
+
+
+                    if (movieName.includes(searchValue)) {
+
+                        movie.style.display = "block";
+
+                    } else {
+
+                        movie.style.display = "none";
+
+                    }
+
+                });
+
+            });
+
+    </script>
+
+
+</body>
+
+</html>

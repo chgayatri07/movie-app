@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title><%= movie.movieName %></title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+        }
+
+        .navbar {
+            padding: 22px 55px;
+            background: #151515;
+            border-bottom: 1px solid #292929;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            width: 88%;
+            max-width: 1100px;
+            margin: 50px auto;
+        }
+
+        .movie-details {
+            display: flex;
+            gap: 45px;
+            background: #191919;
+            padding: 30px;
+            border-radius: 6px;
+        }
+
+        .movie-image {
+            width: 320px;
+            flex-shrink: 0;
+        }
+
+        .movie-image img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .movie-info {
+            padding: 10px 0;
+        }
+
+        .movie-info h1 {
+            margin: 0 0 15px;
+            font-size: 34px;
+        }
+
+        .movie-meta {
+            color: #999999;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        .rating {
+            font-size: 17px;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            color: #cccccc;
+            line-height: 1.7;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        .info-row {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .info-row span {
+            color: #888888;
+        }
+
+        .review-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 11px 18px;
+            background: #ffffff;
+            color: #111111;
+            border: none;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .review-button:hover {
+            background: #dddddd;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 25px;
+            color: #999999;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-button:hover {
+            color: #ffffff;
+        }
+
+        /* Reviews */
+
+        .reviews-section {
+            margin-top: 40px;
+        }
+
+        .reviews-section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .no-reviews {
+            color: #888888;
+            font-size: 14px;
+        }
+
+        .review-card {
+            background: #191919;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .review-header strong {
+            font-size: 15px;
+        }
+
+        .review-header span {
+            color: #aaaaaa;
+            font-size: 14px;
+        }
+
+        .review-card p {
+            margin: 0;
+            color: #cccccc;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* Review Dialog */
+
+        .review-dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .review-box {
+            width: 450px;
+            background: #191919;
+            padding: 30px;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .review-box h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        .review-box label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 7px;
+            font-size: 14px;
+        }
+
+        .review-box input,
+        .review-box select,
+        .review-box textarea {
+            width: 100%;
+            padding: 11px;
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 4px;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .review-box textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .close-button {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            color: #888888;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            color: #ffffff;
+        }
+
+        .submit-review {
+            width: 100%;
+            margin-top: 22px;
+            padding: 11px;
+            background: #ffffff;
+            color: #111111;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-review:hover {
+            background: #dddddd;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 750px) {
+
+            .movie-details {
+                flex-direction: column;
+            }
+
+            .movie-image {
+                width: 100%;
+            }
+
+            .movie-image img {
+                height: 450px;
+            }
+
+            .navbar {
+                padding: 20px;
+            }
+
+            .review-box {
+                width: 90%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="navbar">
+
+        <div class="logo">
+            WATCHLIST
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <!-- Movie Details -->
+
+        <div class="movie-details">
+
+
+            <div class="movie-image">
+
+                <img
+                    src="/uploads/<%= movie.img %>"
+                    alt="<%= movie.movieName %>"
+                >
+
+            </div>
+
+
+            <div class="movie-info">
+
+
+                <h1>
+                    <%= movie.movieName %>
+                </h1>
+
+
+                <div class="movie-meta">
+
+                    <%= movie.year %>
+                    |
+                    <%= movie.genre %>
+
+                </div>
+
+
+                <div class="rating">
+
+                    Rating:
+                    <%= movie.rating %>/10
+
+                </div>
+
+
+                <div class="description">
+
+                    <%= movie.description %>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>Production:</span>
+                    <%= movie.production %>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>Director:</span>
+                    <%= movie.director %>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>Runtime:</span>
+                    <%= movie.runtime %>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>Content Type:</span>
+                    <%= movie.contenttype %>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="review-button"
+                    onclick="openReviewDialog()"
+                >
+                    Write a Review
+                </button>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- Reviews Section -->
+
+        <div class="reviews-section">
+
+            <h2>Reviews</h2>
+
+
+            <% if (reviews.length === 0) { %>
+
+                <p class="no-reviews">
+                    No reviews yet. Be the first to review this movie.
+                </p>
+
+            <% } else { %>
+
+
+                <% reviews.forEach(function(review) { %>
+
+
+                    <div class="review-card">
+
+
+                        <div class="review-header">
+
+
+                            <strong>
+                                <%= review.userName %>
+                            </strong>
+
+
+                            <span>
+                                <%= review.rating %>/10
+                            </span>
+
+
+                        </div>
+
+
+                        <p>
+                            <%= review.review %>
+                        </p>
+
+
+                    </div>
+
+
+                <% }); %>
+
+
+            <% } %>
+
+
+        </div>
+
+
+        <a href="/moviepage" class="back-button">
+            Back to movies
+        </a>
+
+
+    </div>
+
+
+    <!-- Review Dialog -->
+
+    <div id="reviewDialog" class="review-dialog">
+
+
+        <div class="review-box">
+
+
+            <span
+                class="close-button"
+                onclick="closeReviewDialog()"
+            >
+                &times;
+            </span>
+
+
+            <h2>
+                Write a Review
+            </h2>
+
+
+            <form
+                action="/addreview/<%= movie._id %>"
+                method="POST"
+            >
+
+
+                <label>
+                    Your Name
+                </label>
+
+
+                <input
+                    type="text"
+                    name="userName"
+                    placeholder="Enter your name"
+                >
+
+
+                <label>
+                    Rating
+                </label>
+
+
+                <select name="rating">
+
+                    <option value="">
+                        Select rating
+                    </option>
+
+                    <option value="1">
+                        1 / 10
+                    </option>
+
+                    <option value="2">
+                        2 / 10
+                    </option>
+
+                    <option value="3">
+                        3 / 10
+                    </option>
+
+                    <option value="4">
+                        4 / 10
+                    </option>
+
+                    <option value="5">
+                        5 / 10
+                    </option>
+
+                    <option value="6">
+                        6 / 10
+                    </option>
+
+                    <option value="7">
+                        7 / 10
+                    </option>
+
+                    <option value="8">
+                        8 / 10
+                    </option>
+
+                    <option value="9">
+                        9 / 10
+                    </option>
+
+                    <option value="10">
+                        10 / 10
+                    </option>
+
+                </select>
+
+
+                <label>
+                    Your Review
+                </label>
+
+
+                <textarea
+                    name="review"
+                    placeholder="Write your review..."
+                ></textarea>
+
+
+                <button
+                    type="submit"
+                    class="submit-review"
+                >
+                    Submit Review
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+    <script>
+
+        function openReviewDialog() {
+
+            document
+                .getElementById("reviewDialog")
+                .style.display = "flex";
+
+        }
+
+
+        function closeReviewDialog() {
+
+            document
+                .getElementById("reviewDialog")
+                .style.display = "none";
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
